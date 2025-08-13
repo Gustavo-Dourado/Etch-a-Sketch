@@ -1,0 +1,49 @@
+html{
+    --widthBoard: 500px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1{
+    text-align: center;
+    margin: 15px 0;
+}
+
+.main-container{
+    width: min-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin: 0 auto;
+    padding: 30px 100px 30px 250px;
+    background-color: #40bf40;
+}
+
+.board-container{
+    box-sizing: content-box;
+    width: var(--widthBoard);
+    height: var(--widthBoard);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: 3px solid black;
+}
+
+.square{
+    /*Definir width and height ao criar elemento no js*/
+    width: calc(--widthBoard / 16);
+    height: calc(--widthBoard / 16);
+    border: 1px solid black;
+}
+
+.button{
+    width: 100px;
+    height: 50px;
+}
