@@ -38,8 +38,8 @@ h1{
 
 .square{
     /*Definir width and height ao criar elemento no js*/
-    width: calc(--widthBoard / 16);
-    height: calc(--widthBoard / 16);
+    width: 31.25px;
+    height: 31.25px;
     border: 1px solid black;
 }
 
