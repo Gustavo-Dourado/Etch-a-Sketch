@@ -36,13 +36,6 @@ h1{
     border: 3px solid black;
 }
 
-.square{
-    /*Definir width and height ao criar elemento no js*/
-    width: 31.25px;
-    height: 31.25px;
-    border: 1px solid black;
-}
-
 .button{
     width: 100px;
     height: 50px;

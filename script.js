@@ -1,6 +1,10 @@
 //get Elements
 const board = document.querySelector(".board-container");
-const defineSquares = document.querySelector("#define-squares");
+const userNumberSquares = document.querySelector("#user-number-squares");
+
+//add events
+userNumberSquares.addEventListener('click', getUserNumberSquares);
+board.addEventListener('mouseover', (e) => paintBlack(e.target));
 
 //Constantes
 const INITIAL_SQUARES = 16;
@@ -10,38 +14,37 @@ function createBoard(){
     createSquares(INITIAL_SQUARES);
 }
 
-function clearBoard(){
-    //clear
-    
-}
-
 function createSquares(squarePerLine){
 
     let widthSquare = WIDTH/squarePerLine;
-
+    
     let totalSquares = squarePerLine ** 2;
 
     for(let id = 1; id <= totalSquares; id++){
+        
         const square = document.createElement("div");
         square.setAttribute("class", "square");
         square.setAttribute("id", `square-${id}`);
-        square.style.width = widthSquare;
-        square.style.height = widthSquare;
+        square.style.width = `${widthSquare}px`;
+        square.style.height = `${widthSquare}px`;
+        square.style.border = "1px solid black";
         board.appendChild(square);
     }
 }
 
-function createNewBoard(){
-    const userDefineNumber = prompt("Escolha como você quer montar o quadro: \n Digite o número de quadrados por linha (1 a 100)")
+function getUserNumberSquares(){
+    const userSquareNumber = prompt("Escolha como você quer montar o quadro: \n Digite o número de quadrados por linha (1 a 100)");
 
     if(!userDefineNumber || userDefineNumber === 0)
-        alert("Escolha inválida, tente um número de 1 a 100")
+        alert("Escolha inválida, tente um número de 1 a 100");
 
-    createSquares(userDefineNumber);
+    createNewBoard(userSquareNumber);
 }
 
-defineSquares.addEventListener('click', createNewBoard);
-board.addEventListener('mouseover', (e) => paintBlack(e.target));
+function createNewBoard(userSquareNumber){
+    clearSquares();
+    createSquares(userSquareNumber);
+}
 
 function paintBlack(square){
     if (!square.classList.contains("square"))
@@ -50,5 +53,5 @@ function paintBlack(square){
     square.style.backgroundColor = "black";
 }
 
-
+//Inicia o aplicativo
 createBoard();
