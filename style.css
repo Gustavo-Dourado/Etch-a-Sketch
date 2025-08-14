@@ -8,6 +8,10 @@ html{
     box-sizing: border-box;
 }
 
+body{
+    background-color: #E8E8E8;
+}
+
 h1{
     text-align: center;
     margin: 15px 0;
@@ -21,7 +25,6 @@ h1{
     gap: 50px;
     margin: 0 auto;
     padding: 30px 100px;
-    background-color: #8cd98c;
 }
 
 .board{
@@ -55,4 +58,12 @@ h1{
     color: white;
     cursor: pointer;
     text-align: center;
+}
+
+.button:hover{
+    background-color: #53c653;
+}
+
+.styles-buttons .button:focus{
+    background-color: black;
 }
