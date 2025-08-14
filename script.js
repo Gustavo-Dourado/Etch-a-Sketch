@@ -1,20 +1,50 @@
 //get Elements
 const board = document.querySelector(".board");
+
+const colorsButtonsContainer = document.querySelector(".colors-buttons");
+const blackPaintBtn = document.querySelector("#black-paint");
+
+// redefine está dentro de actions-buttons buttons-container
 const redefineSquaresBtn = document.querySelector("#redefine-squares");
+
+//Constantes
+const INITIAL_BOARD = 16;
+const WIDTH = board.clientWidth;
+let actualColorButton = {active: "paint-black"};
 
 //add events
 redefineSquaresBtn.addEventListener('click', redefineSquares);
-board.addEventListener('mouseover', (e) => paintBlack(e.target));
 
-//Constantes
-const INITIAL = 16;
-const WIDTH = board.clientWidth;
 
-// function defineSquareBehavior(){}
+colorsButtonsContainer.addEventListener('click', (e) => activeColorButton(actualColorButton, e.target.id));
 
-function createBoard(){
-    createSquares(INITIAL);
+function initApp(){
+    createSquares(INITIAL_BOARD);
+    board.addEventListener('mouseover', (e) => runActiveColorButton(actualColorButton, e.target));
 }
+
+
+function activeColorButton(actualColorButton, colorButton){
+    actualColorButton.active = colorButton;
+}
+
+function runActiveColorButton(actualColorButton, square){
+
+    switch(actualColorButton.active){
+        case "paint-black": 
+            {   
+                paintBlack(square);
+                break;
+            }
+        case "paint-random":
+            {
+                paintRandom(square);
+                break;
+            }
+        default: paintBlack(square);    
+    }
+}
+
 
 function createSquares(squarePerLine){
 
@@ -74,5 +104,16 @@ function paintBlack(square){
     square.style.backgroundColor = "black";
 }
 
+function paintRandom(square){
+    if (!square.classList.contains("square"))
+        return;
+
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+
+    square.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+}
+
 //Inicia o aplicativo
-createBoard();
+initApp();
