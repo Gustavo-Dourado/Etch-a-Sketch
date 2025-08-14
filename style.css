@@ -21,10 +21,10 @@ h1{
     gap: 50px;
     margin: 0 auto;
     padding: 30px 100px 30px 250px;
-    background-color: #40bf40;
+    background-color: #8cd98c;
 }
 
-.board-container{
+.board{
     box-sizing: content-box;
     width: var(--widthBoard);
     height: var(--widthBoard);
@@ -36,7 +36,22 @@ h1{
     border: 3px solid black;
 }
 
+.buttons-container{
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
 .button{
-    width: 100px;
-    height: 50px;
+    all: unset;
+    box-sizing: border-box;
+    width: 120px;
+    height: 60px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #133913;
+    color: white;
+    cursor: pointer;
+    text-align: center;
 }

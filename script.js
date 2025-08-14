@@ -1,17 +1,19 @@
 //get Elements
-const board = document.querySelector(".board-container");
-const userNumberSquares = document.querySelector("#user-number-squares");
+const board = document.querySelector(".board");
+const redefineSquaresBtn = document.querySelector("#redefine-squares");
 
 //add events
-userNumberSquares.addEventListener('click', getUserNumberSquares);
+redefineSquaresBtn.addEventListener('click', redefineSquares);
 board.addEventListener('mouseover', (e) => paintBlack(e.target));
 
 //Constantes
-const INITIAL_SQUARES = 16;
+const INITIAL = 16;
 const WIDTH = board.clientWidth;
 
+// function defineSquareBehavior(){}
+
 function createBoard(){
-    createSquares(INITIAL_SQUARES);
+    createSquares(INITIAL);
 }
 
 function createSquares(squarePerLine){
@@ -32,18 +34,37 @@ function createSquares(squarePerLine){
     }
 }
 
-function getUserNumberSquares(){
-    const userSquareNumber = prompt("Escolha como você quer montar o quadro: \n Digite o número de quadrados por linha (1 a 100)");
+function redefineSquares(){
+    const numberSquares = getUserNumberSquares();
+    
+    if (!numberSquares)
+        return;
 
-    if(!userDefineNumber || userDefineNumber === 0)
-        alert("Escolha inválida, tente um número de 1 a 100");
-
-    createNewBoard(userSquareNumber);
+    createNewBoard(numberSquares)
 }
 
-function createNewBoard(userSquareNumber){
+function getUserNumberSquares(){
+    const userAnwser = prompt("Escolha como você quer montar o quadro: \n Digite o número de quadrados por linha (1 a 100)");
+    const userSquareNumber = parseInt(userAnwser);
+    
+    const validNumber = (userSquareNumber === 0 || userSquareNumber > 100) ? false : true;
+
+    if(!userSquareNumber || !validNumber){
+        alert("Escolha inválida, tente um número de 1 a 100");
+        return null;
+    }
+
+    return userSquareNumber;
+}
+
+function createNewBoard(numberSquares){
     clearSquares();
-    createSquares(userSquareNumber);
+    createSquares(numberSquares);
+}
+
+function clearSquares(){
+    const squares = Array.from(board.children)
+    squares.forEach(square => square.remove());
 }
 
 function paintBlack(square){
