@@ -1,57 +1,95 @@
 //get Elements
 const board = document.querySelector(".board");
 
-const styleButtonsContainer = document.querySelector(".styles-buttons");
+//Botões de Estilo
+const styleButtonsContainer = document.querySelector(".styles-buttons"); //Cointainer com botões de estilo
 
+const blackStyle = document.querySelector("#black-style");
+// const randomStyle = document.querySelector("#random-style");
+// const userStyle = document.querySelector("#user-style");
+// const whiteStyle = document.querySelector("#white-style");
+
+//Redefine Buttons
 const redefineSquaresBtn = document.querySelector("#redefine-squares");
 const clearBoard = document.querySelector("#clear-board");
 
 //Constantes globais
-const globalState = {
-    width: board.clientWidth,
-    squaresPerLine: 16,
-    actualStyleSquares: paintBlack,
-}
+const BOARD_WIDTH = board.clientWidth;
+const LINE_SQUARES_NUMBER = 16;
 
-const stylesFunctions = {
-    black: paintBlack,
-    random: paintRandom,
-    white: paintWhite,
-}
+const styleColorOptions = {
+    black: {name: "black", rgb: "rgb(0, 0, 0)"}, 
+    random: {name: "random", rgb: "random"}, 
+    user: {name: "user", rgb: "input-value"}, 
+    white: {name: "white", rgb: "rgb(255, 255, 255)"},
+};
+
+const globalState = {
+    width: BOARD_WIDTH,
+    squaresPerLine: LINE_SQUARES_NUMBER,
+    activeStyleColor: styleColorOptions.black,
+};
 
 //add events
 redefineSquaresBtn.addEventListener('click', redefineSquares);
 clearBoard.addEventListener('click', () => createNewBoard(globalState));
 styleButtonsContainer.addEventListener('click', (e) => defineStyleFunction(globalState, e.target));
 
+
 function initApp(globalState){
     createSquares(globalState);
-    addEventStyleSquares(globalState);
+    board.addEventListener('mouseover', (e) => applyStyleSquare(globalState, e.target));
 }
 
 function defineStyleFunction(globalState, element){
 
     if(element.className != "button") return;
-    
-    if(element.id.includes("black"))
-        globalState.actualStyleSquares = stylesFunctions.black;
-    
-    if(element.id.includes("random"))
-        globalState.actualStyleSquares = stylesFunctions.random;
 
-    if(element.id.includes("white"))
-        globalState.actualStyleSquares = stylesFunctions.white;
+    const lastBtnActive = globalState.activeStyleColor.name
+    document.querySelector(`#${lastBtnActive}-style`).classList.remove("active");
     
-    addEventStyleSquares(globalState);
-}
+    if(element.id.includes(styleColorOptions.black.name))
+        globalState.activeStyleColor = styleColorOptions.black;
+    
+    if(element.id.includes(styleColorOptions.random.name))
+         globalState.activeStyleColor = styleColorOptions.random;
 
-function addEventStyleSquares(globalState){
+    if(element.id.includes(styleColorOptions.user.name))
+        globalState.activeStyleColor = styleColorOptions.user;
+
+    if(element.id.includes(styleColorOptions.white.name))
+         globalState.activeStyleColor = styleColorOptions.white;
+
+    element.classList.add("active");
+
+    board.removeEventListener('mouseover', (e) => applyStyleSquare(globalState, e.target));
     board.addEventListener('mouseover', (e) => applyStyleSquare(globalState, e.target));
 }
 
 function applyStyleSquare(globalState, square){
     if (!square.classList.contains("square")) return;
-    globalState.actualStyleSquares(square);
+
+    if (globalState.activeStyleColor === styleColorOptions.random){
+        const randomRGB = generateRandomRGB();
+        square.style.backgroundColor = randomRGB;
+        return;
+    }
+
+    if (globalState.activeStyleColor === styleColorOptions.user){
+        const userColor = document.querySelector("#user-input-color").value;
+        square.style.backgroundColor = userColor;
+        return;
+    }
+    
+    square.style.backgroundColor = globalState.activeStyleColor.rgb;
+}
+
+function generateRandomRGB(){
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+
+    return `rgb(${red}, ${green}, ${blue})`;
 }
 
 function createSquares(globalState){
@@ -81,6 +119,7 @@ function redefineSquares(){
     globalState.squaresPerLine = numberSquares;
 
     createNewBoard(globalState);
+    board.addEventListener('mouseover', (e) => applyStyleSquare(globalState, e.target));
 }
 
 function getUserNumberSquares(){
@@ -105,23 +144,6 @@ function createNewBoard(globalState){
 function clearSquares(){
     const squares = Array.from(board.children)
     squares.forEach(square => square.remove());
-}
-
-function paintBlack(square){
-    square.style.backgroundColor = "black";
-}
-
-function paintRandom(square){
-
-    const red = Math.floor(Math.random() * 256);
-    const green = Math.floor(Math.random() * 256);
-    const blue = Math.floor(Math.random() * 256);
-
-    square.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-}
-
-function paintWhite(square){
-    square.style.backgroundColor = "white";
 }
 
 //Inicia o aplicativo
